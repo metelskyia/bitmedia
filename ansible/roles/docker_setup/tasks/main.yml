@@ -1,0 +1,36 @@
+- name: Update system packages
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install required dependencies
+  apt:
+    name: ["apt-transport-https", "ca-certificates", "curl", "software-properties-common"]
+    state: present
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+    state: present
+
+- name: Install Docker and Docker Compose
+  apt:
+    name: ["docker-ce", "docker-ce-cli", "containerd.io", "docker-compose-plugin"]
+    state: present
+
+- name: Ensure Docker service is running
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add current user to Docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes

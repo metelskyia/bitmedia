@@ -1,0 +1,7 @@
+---
+- name: Deploy project with Docker Compose
+  shell: |
+    cd {{ project_dir }}
+    docker compose up -d
+  args:
+    executable: /bin/bash

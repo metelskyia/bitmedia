@@ -1,0 +1,9 @@
+---
+- name: Deploy Cloud Server with Docker & Nginx
+  hosts: ec2_instances
+  become: yes
+
+  roles:
+    - docker_setup
+    - github_clone
+    - deploy_nginx
